@@ -3,9 +3,15 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <stdint.h>
+#include <stddef.h>
+#include <stdbool.h>
+#include <limits.h>
 
 #define UNUSED(x) (void)(x)
 #define BUFF_SIZE 1024
+#define  MAX_INT_LENGTH 20
+
 
 /* FLAGS */
 #define F_MINUS 1
@@ -13,10 +19,19 @@
 #define F_ZERO 4
 #define F_HASH 8
 #define F_SPACE 16
+#define F_LEFT (1 << 0)
+#define F_UPPERCASE
+#define F_PRECISION
+#define F_LEFTALIGN
 
 /* SIZES */
 #define S_LONG 2
 #define S_SHORT 1
+
+#define BASE_DEC 10
+#define BASE_HEX_LOWER 16
+#define BASE_HEX_UPPER 16
+#define BASE_OCT 8
 
 /**
  * struct fmt - Struct op
@@ -42,6 +57,8 @@ typedef struct fmt fmt_t;
 int _printf(const char *format, ...);
 int handle_print(const char *fmt, int *i,
 va_list list, char buffer[], int flags, int width, int precision, int size);
+
+
 
 /****************** FUNCTIONS ******************/
 
@@ -74,11 +91,11 @@ char buffer[], int flags, char flag_ch, int width, int precision, int size);
 int print_non_printable(va_list types, char buffer[],
 	int flags, int width, int precision, int size);
 
-/* Funcion to print memory address */
+/* Function to print memory address */
 int print_pointer(va_list types, char buffer[],
 	int flags, int width, int precision, int size);
 
-/* Funciotns to handle other specifiers */
+/* Functions to handle other specifiers */
 int get_flags(const char *format, int *i);
 int get_width(const char *format, int *i, va_list list);
 int get_precision(const char *format, int *i, va_list list);
